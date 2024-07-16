@@ -34,6 +34,7 @@ int main(void)
             printf("PARENT: My childs PID is %d\n", pid);
             int retorno;
             wait(&retorno);
+            //sleep(20); // comentando wait y luego haciendo que espere con este sleep, podemos ve que pasa con el hijo zombie
             printf("PARENT: My child's exit status is: %d\n", WEXITSTATUS(retorno));
             printf("PARENT: I'm outta here!\n");
     }
