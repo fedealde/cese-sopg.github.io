@@ -23,7 +23,8 @@ int main(void) {
     int pipes[2];
 
     sa.sa_handler = handlerHijo;
-    sa.sa_flags = 0;
+    sa.sa_flags = 0; //Al no estar SA_RESTART; aparece PARENT: read error: Interrupted system call
+    //al comentar close(pipes[1]); en el padre
     sigemptyset(&sa.sa_mask);
 
     pipe(pipes);
@@ -56,7 +57,9 @@ int main(void) {
                 printf("PARENT: hay EOF!\n");
                 break;
             } else {
-                perror("PARENT: read error");
+                /*Da error cuando no incluimos SA_RESTART y llega SIGCHLD
+                interrumpiendo a read()*/
+                perror("PARENT: read error"); 
             }
         }
     }
