@@ -1,14 +1,21 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/stat.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+#include "common.h"
 
 #define FIFO_NAME "myfifo"
 
 int main(void) {
     char s[300];
     int num, fd;
+int na = nada ();
+na ++;
 
     mknod(FIFO_NAME, S_IFIFO | 0666, 0);
 
