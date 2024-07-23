@@ -25,6 +25,7 @@ int main() {
     sa.sa_handler = SIG_IGN; //Le digo que ignore la señal ya que no quiero que haga nada
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;  // Puedes probar con SA_RESTART aquí
+    
     if (sigaction(SIGPIPE, &sa, NULL) == -1) {
         perror("sigaction");
         exit(EXIT_FAILURE);

@@ -48,9 +48,11 @@ int main() {
 
     // Configurar el handler para SIGCHLD
     sa.sa_handler = handle_sigchld;
-    sigemptyset(&sa.sa_mask);
+    sigemptyset(&sa.sa_mask); //ponemos todo en cero
     sa.sa_flags = 0;  // Puedes probar con SA_RESTART aquí
-    if (sigaction(SIGCHLD, &sa, NULL) == -1) {
+    //Vemos que signation devuelve un entero, acá le avisamos al sistema que sa tiene que tratarla
+    //para el caso de la señal SIGCHLD. NULL quiere decir default
+    if (sigaction(SIGCHLD, &sa, NULL) == -1) { 
         perror("sigaction");
         exit(EXIT_FAILURE);
     }
