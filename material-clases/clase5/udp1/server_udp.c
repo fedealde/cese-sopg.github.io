@@ -15,8 +15,10 @@ int main() {
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_port = htons(4096);
     serveraddr.sin_addr.s_addr =
-        INADDR_ANY; // if(inet_pton(AF_INET, "127.0.0.1",
+        INADDR_ANY; // if(inet_pton(AF_INET, "127.0.0.1", 
                     // &(serveraddr.sin_addr))<=0)
+    //acptamos conexiones desde cualquier interfaz
+
 
     // Abrimos puerto con bind()
     if (bind(s, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) == -1) {
@@ -29,7 +31,13 @@ int main() {
     bzero((char *)&clientaddr, sizeof(clientaddr));
     socklen_t addr_len = sizeof(clientaddr);
 
+//NO HACEMOS NI LISTEN NI ACCEPT PORQUE NO ES ORIENTADO A CONEXION
+// Por lo que tenemos un solo socket, no uno para listen y uno por cada cliente
+// Aca uno solo escucha todos
+
     char buffer[128];
+    /*Parecido a read pero me agrega que no solo recibe lo que llego del socket, sino que
+    dice de quien vino el mensaje ya que puede atender a multiples clientes*/
     int numBytes = recvfrom(s, buffer, 127, 0,
                             (struct sockaddr *)&clientaddr, &addr_len);
     printf("Se recibieron %d bytes", numBytes);

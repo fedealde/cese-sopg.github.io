@@ -7,6 +7,9 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+//Con netstat -plnt nos da la conexion que tenemos, en este caso 4096 le llama bre, bridge relay element
+//Vemos que al cliente le da un puerto efimero
+
 int main(void) {
     // Creamos socket
     int s = socket(PF_INET, SOCK_STREAM, 0);
@@ -51,7 +54,12 @@ int main(void) {
         buf[n] = 0x00;
         printf("cliente: recibi: '%s'\n", buf);
     }
-    close(s);
+    close(s);//si no estuviera, se cierra igualmente, pero es buena practica
+
+/*si ejecuto multiples clientes, todos estan con el handshake hecho, pero el server solo 
+contesta al primero, luego al segundo lo hace. Puede antender tantos como dice el backlog.
+El kernel a veces asigna un poco mas, pero en algun momento pone freno y hace esperar
+*/
 
     return EXIT_SUCCESS;
 }

@@ -5,7 +5,10 @@
 #include <sys/un.h>
 #include <unistd.h>
 
-#define SOCKET_PATH "/tmp/mysocket"
+//ES UN ECHO SERVER, devuelve lo que recibe
+
+#define SOCKET_PATH "/tmp/mysocket" 
+//ruta a archivo comun y corriente, tenemos que tiene nombre y este es mysocket
 
 int main() {
     int s = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -14,12 +17,15 @@ int main() {
         return 1;
     }
 
+// aca borro el inodo o archivo por si existe, evitamos el problema
     unlink(SOCKET_PATH); // avoid "address already in use"
 
-    struct sockaddr_un local = {0};
+    struct sockaddr_un local = {0}; // _un es de unix
     local.sun_family = AF_UNIX;
     strcpy(local.sun_path, SOCKET_PATH);
+    // así se especifica la longitud, why? i dont know
     int addrlen = offsetof(struct sockaddr_un, sun_path) + strlen(local.sun_path) + 1;
+    //con este asignamos y mas abajo hacemos el listen
     if (bind(s, (struct sockaddr *)&local, addrlen) != 0) {
         perror("bind");
         return 1;
@@ -30,7 +36,7 @@ int main() {
         return 1;
     }
 
-    while (true) {
+    while (true) {// todo es igual que el de internet excepto que es para unix
         printf("waiting for connection....\n");
 
         unsigned int sock_len;

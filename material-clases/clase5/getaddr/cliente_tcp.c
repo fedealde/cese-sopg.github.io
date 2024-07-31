@@ -16,6 +16,11 @@ int main() {
     hints.ai_socktype = SOCK_STREAM; // tcp
     hints.ai_flags = AI_PASSIVE;     /* For wildcard IP address */
 
+
+/*Una computadora puede tener distintas interfaces de red, si quiero especificar una especifica
+en general queremos preguntar por la que esta conectada a internet, etonces esta nos dice cual
+utilizar dependiendo lo que le pongamos dentro, es un caso de uso a parte
+En este ejemplo le preguntamos por local host */
     struct addrinfo *result;
     int r = getaddrinfo("localhost", "4096", &hints,
                         &result); // NULL para localhost

@@ -17,6 +17,7 @@ int main() {
         return 1;
     }
 
+// homologo de write, tiene banderas
     int numBytes = sendto(s, "hola", 5, 0,
                           (struct sockaddr *)&serveraddr, sizeof(serveraddr));
     printf("Se enviaron %d bytes\n", numBytes);
