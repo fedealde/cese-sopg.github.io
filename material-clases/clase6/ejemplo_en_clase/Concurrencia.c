@@ -5,20 +5,17 @@
 typedef struct {
     int a;
     int b;
-} data_t;
+} Data;
 
-data_t data;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+Data data;
 
 void *start_thread(void *message) {
+
     while (1) {
-        pthread_mutex_lock(&mutex);//Protegemos
         data.a++;
         data.b++;
-        pthread_mutex_unlock(&mutex);
         usleep(100);
     }
-    return NULL;
 }
 
 int main(void) {
@@ -28,15 +25,13 @@ int main(void) {
     pthread_create(&t2, NULL, start_thread, NULL);
 
     while (1) {
-        pthread_mutex_lock(&mutex);//Protegemos
         int a = data.a;
         int b = data.b;
-        pthread_mutex_unlock(&mutex);
-        printf("%d %d\r\n", a, b);
+        printf("%d %d\n", a, b);
         sleep(1);
     }
-
-    return 0;
 }
 
-// pthread_mutex_trylock(&mutex); permite tomar el mutex si esta disponible o podemos saltearlos
+// Uno espera que a y b tengan el mismo valor. Por condicion de carrera puede
+// cambiar hasta al ejecutar solo un hilo además del main al momento de
+// mostrarlo

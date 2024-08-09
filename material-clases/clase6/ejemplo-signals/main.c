@@ -45,7 +45,6 @@ int main(void) {
         c++;
     }
     printf("Desbloqueo signal\n");
-
     desbloquear_sigint();
 
     printf("Espero.\n");

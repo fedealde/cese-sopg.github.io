@@ -25,6 +25,8 @@ int main(void) {
     const char *message1 = "Thing 1";
     const char *message2 = "Thing 2";
 
+    //Creo dos threads que utilizan una funcion que imprime una mensaje cada 1 seg
+    //De forma concurrente hay un thread que cancela a los 5s el th1 y a los 2 siguientes el th2
     pthread_create(&thing1, NULL, start_thread, (void *)message1);
     pthread_create(&thing2, NULL, start_thread, (void *)message2);
     pthread_create(&thing3, NULL, cancelador, NULL);
@@ -44,6 +46,17 @@ int main(void) {
     else
         printf("Termino t2\n");
 
+//A pesar de que el cancelador muere con el return 0, si no llegaramos, no se libera el recurso
+//Por buen practica por cada thread hay un detach o un join
+    pthread_join(thing3, &ret);
+    if (ret == PTHREAD_CANCELED)
+        printf("Se cancelo t3\n");
+    else
+        printf("Termino t3\n");
+
     printf("Fin main\n");
     return 0;
 }
+
+
+//Podríamos tener un pool de thread sincronizados por colas y se reutilizan, esto se hace a mano.

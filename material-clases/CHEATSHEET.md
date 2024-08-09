@@ -10,7 +10,7 @@
 -   
 -   bzero(buffer, sizeof(buffer));
 -   
--   
+-   Comando `strace`: muestra las llamadas a sistema realizadas
 -   
 -   
 -   
@@ -82,3 +82,15 @@ Bloquear y desbloquear señales en un proceso, en este caso SIGINT (ctrl+c)
 
 
 kill -SIGUSR2 15918
+
+
+
+valgrind para depurar problemas de memoria, stack, errores en tiempo de ejecución
+clang -Wall -g a.c
+con -g hacemos que compile con informacion de depuracion, hace que sea mas pesado pero sirve
+
+valgrind --leak-check=full ./a.out
+
+hexdump -C nombre del archivo
+nos muestra que tiene la memoria del archivo
+

@@ -23,7 +23,6 @@
 #define MAX_BUFFERS 10
 char buf[MAX_BUFFERS][100];
 
-int buffer_print_index;
 
 int buffer_produce_index;
 sem_t *mutex_sem; // protects buffer_produce_index
@@ -39,7 +38,7 @@ int main(int argc, char **argv) {
     int i, r;
 
     // initialization
-    buffer_produce_index = buffer_print_index = 0;
+    buffer_produce_index = 0;
 
     //  mutual exclusion semaphore, mutex_sem with an initial value 1.
     if ((mutex_sem = sem_open(SEM_MUTEX_NAME, O_CREAT, 0660, 1)) ==
@@ -171,6 +170,9 @@ void *producer(void *arg) {
 
 // There is only one spooler thread
 void *spooler(void *arg) {
+
+    int buffer_print_index = 0;
+
     while (1) { // forever
         // Is there a string to print?
         if (sem_wait(spool_signal_sem) == -1) {
